@@ -1,5 +1,6 @@
 package Luca;
 
+import javafx.scene.image.Image;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
@@ -33,9 +34,10 @@ public class ConsoleMatrixPrinter {
             System.out.println();
         }
     }
-    public static void printList(List<Array2DRowFieldMatrix<Dfp>> mats){
-        for (int i = 0; i < mats.size(); i++){
-            print(mats.get(i));
+    public static void printList(List<TrainingImage> images){
+        for (TrainingImage image : images){
+            System.out.println(String.format("Label: %d, ImageNum: %d", image.getDigit(), image.getIndex()));
+            print(image.getMatrix());
             System.out.println();
         }
     }
