@@ -48,12 +48,12 @@ public class BinaryFileReader {
 
             byte labels[] = readLabels(s, n);
             int matCount = -1;
+            DfpField dfpField = new DfpField(0);
             while((bytesRead = inputStream.read(buffer)) != -1 && matrices.size() < n){
                 int b = 0;
                 matCount++;
                 for (int i = 0; i < IMAGE_DIMENSION; i++){
                     for (int j = 0; j < IMAGE_DIMENSION; j++){
-                        DfpField dfpField = new DfpField(0);
                         arr[i][j] = dfpField.newDfp(buffer[b++]);
                     }
                 }

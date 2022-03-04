@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0a14b40-1d49-4f79-8219-dae73e44e08b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/FilenameResourceResolver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/train-labels.idx1-ubyte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Luca/train-images-idx3-ubyte.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/ConsoleMatrixPrinter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/ConsoleMatrixPrinter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/train-images-idx3-ubyte.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,16 +110,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
