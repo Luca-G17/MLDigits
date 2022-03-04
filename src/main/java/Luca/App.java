@@ -14,16 +14,20 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private ImageProcessor processor = new ImageProcessor();
+    private BinaryFileReader trainingReader = new BinaryFileReader(
+            "train-images.idx3-ubyte",
+            "train-labels.idx1-ubyte"
+    );
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-        String file = App.class.getResource("train-images.idx3-ubyte").toString();
-        file = file.substring(5);
-        BinaryFileReader binReader = new BinaryFileReader(file);
-        ConsoleMatrixPrinter.printList(binReader.getMatrices());
+
+        trainingReader.ReadMats(2, 10, processor);
+        ConsoleMatrixPrinter.printList(processor.getTrainingImages());
     }
 
     static void setRoot(String fxml) throws IOException {
