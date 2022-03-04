@@ -20,8 +20,10 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-        BinaryFileReader binReader = new BinaryFileReader(App.class.getResource("train-images.idx3-ubyte"));
-        ConsoleMatrixPrinter.print(binReader.getMatrices().get(0));
+        String file = App.class.getResource("train-images.idx3-ubyte").toString();
+        file = file.substring(5);
+        BinaryFileReader binReader = new BinaryFileReader(file);
+        ConsoleMatrixPrinter.printList(binReader.getMatrices());
     }
 
     static void setRoot(String fxml) throws IOException {

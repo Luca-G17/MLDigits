@@ -5,21 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0a14b40-1d49-4f79-8219-dae73e44e08b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/PrimaryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/primary.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/train-images-idx3-ubyte.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/train-images.idx3-ubyte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Luca/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Luca/ConsoleMatrixPrinter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/ConsoleMatrixPrinter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +90,8 @@
       <option name="presentableId" value="Default" />
       <updated>1646308325562</updated>
       <workItem from="1646308328111" duration="2033000" />
-      <workItem from="1646310626459" duration="4460000" />
+      <workItem from="1646310626459" duration="6203000" />
+      <workItem from="1646391720558" duration="601000" />
     </task>
     <servers />
   </component>
@@ -124,13 +117,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java</url>
-          <line>27</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Luca/App.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="2" />
+          <line>37</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

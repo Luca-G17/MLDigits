@@ -4,6 +4,8 @@ import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
+import java.util.List;
+
 
 /*
 Do with generics later
@@ -28,6 +30,12 @@ public class ConsoleMatrixPrinter {
                 else
                     System.out.print(" ");
             }
+            System.out.println();
+        }
+    }
+    public static void printList(List<Array2DRowFieldMatrix<Dfp>> mats){
+        for (int i = 0; i < mats.size(); i++){
+            print(mats.get(i));
             System.out.println();
         }
     }
