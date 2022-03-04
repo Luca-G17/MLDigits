@@ -19,15 +19,15 @@ public class App extends Application {
             "train-images.idx3-ubyte",
             "train-labels.idx1-ubyte"
     );
-
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
 
-        trainingReader.ReadMats(2, 10, processor);
-        ConsoleMatrixPrinter.printList(processor.getTrainingImages());
+        trainingReader.ReadMats(0, 5, processor);
+        // ConsoleMatrixPrinter.printList(processor.getTrainingImages());
+        processor.testNetworkOnImage(2);
     }
 
     static void setRoot(String fxml) throws IOException {

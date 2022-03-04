@@ -1,7 +1,5 @@
 package Luca;
 
-import javafx.scene.image.Image;
-import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
@@ -23,7 +21,9 @@ public class ConsoleMatrixPrinter<T extends FieldElement<T>> {
 }
 */
 public class ConsoleMatrixPrinter {
-    public static void print(Array2DRowFieldMatrix<Dfp> mat){
+    public static void printImage(TrainingImage image){
+        Array2DRowFieldMatrix<Dfp> mat = image.getMatrix();
+        System.out.printf("Label: %d, ImageNum: %d%n", image.getDigit(), image.getIndex());
         for (int i = 0; i < mat.getRowDimension(); i++){
             for (int j = 0; j < mat.getColumnDimension(); j++){
                 if (mat.getEntry(i, j).isZero())
@@ -33,12 +33,20 @@ public class ConsoleMatrixPrinter {
             }
             System.out.println();
         }
+        System.out.println();
+    }
+    public static void printMatrixValues(Array2DRowFieldMatrix<Dfp> mat){
+        for (int i = 0; i < mat.getRowDimension(); i++){
+            for (int j = 0; j < mat.getColumnDimension(); j++){
+                System.out.printf("%f ", (mat.getEntry(i, j).toDouble()));
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
     public static void printList(List<TrainingImage> images){
         for (TrainingImage image : images){
-            System.out.println(String.format("Label: %d, ImageNum: %d", image.getDigit(), image.getIndex()));
-            print(image.getMatrix());
-            System.out.println();
+            printImage(image);
         }
     }
 }

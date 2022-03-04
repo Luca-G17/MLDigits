@@ -13,4 +13,16 @@ public class ImageProcessor {
     public void addTrainingImage(TrainingImage t){
        trainingImages.add(t);
     }
+    private Network network = new Network(16, 2);
+
+
+    public void testNetworkOnImage(int i){
+        if (i < trainingImages.size()){
+            int x = network.computeNetwork(trainingImages.get(i));
+            System.out.printf("The network sees a %d", x);
+            System.out.println();
+            ConsoleMatrixPrinter.printImage(trainingImages.get(i));
+        }
+    }
+
 }
