@@ -5,6 +5,7 @@ import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
 import java.util.Random;
+import java.util.WeakHashMap;
 
 public class NetworkLayer {
     private final int nodeCount;
@@ -61,13 +62,18 @@ public class NetworkLayer {
         nodeMatrix = (weightMatrix.multiply(prevLayerActivation)).add(biasMatrix);
         normalisedNodeMatrix = CustomMath.sigmoid(nodeMatrix);
     }
-    public void backpropagation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation){
-        computeDerivativeCostWRTActivation(subsequentCostWRTActivation);
+    public void backpropagation(Array2DRowFieldMatrix<Dfp> expectedVector){
+        dCostWRTActivation = normalisedNodeMatrix.subtract(expectedVector);
         computeDerivativeCostWRTWeight();
         computeDerivativeCostWRTBias();
     }
-    private void computeDerivativeCostWRTActivation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation){
-        dCostWRTActivation = CustomMath.hadamardProduct((Array2DRowFieldMatrix<Dfp>) (weightMatrix.transpose()).multiply(subsequentCostWRTActivation),
+    public void backpropagation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation, Array2DRowFieldMatrix<Dfp> weightsLeavingLayer){
+        computeDerivativeCostWRTActivation(subsequentCostWRTActivation, weightsLeavingLayer);
+        computeDerivativeCostWRTWeight();
+        computeDerivativeCostWRTBias();
+    }
+    private void computeDerivativeCostWRTActivation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation, Array2DRowFieldMatrix<Dfp> weightsLeavingLayer){
+        dCostWRTActivation = CustomMath.hadamardProduct((Array2DRowFieldMatrix<Dfp>) (weightsLeavingLayer.transpose()).multiply(subsequentCostWRTActivation),
                 CustomMath.sigmoidDerivative(nodeMatrix));
         // (Transpose WeightMatrix * Next derivative of cost WRT node activation) O Sigmoid Gradient of current node activation
     }
@@ -87,5 +93,8 @@ public class NetworkLayer {
     }
     public Array2DRowFieldMatrix<Dfp> getNormalisedNodeMatrix(){
         return normalisedNodeMatrix;
+    }
+    public Array2DRowFieldMatrix<Dfp> getdCostWRTActivation(){
+        return dCostWRTActivation;
     }
 }
