@@ -11,8 +11,8 @@ public class NetworkLayer {
     private final int nodeCount;
     private Array2DRowFieldMatrix<Dfp> normalisedNodeMatrix;
     private Array2DRowFieldMatrix<Dfp> nodeMatrix;
-    private final Array2DRowFieldMatrix<Dfp> weightMatrix; // Weights Entering Layer
-    private final Array2DRowFieldMatrix<Dfp> biasMatrix; // Bias on Layer
+    private Array2DRowFieldMatrix<Dfp> weightMatrix; // Weights Entering Layer
+    private Array2DRowFieldMatrix<Dfp> biasMatrix; // Bias on Layer
 
     private Array2DRowFieldMatrix<Dfp> dCostWRTActivation;
     private Array2DRowFieldMatrix<Dfp> dCostWRTWeight;
@@ -24,6 +24,10 @@ public class NetworkLayer {
         weightMatrix = randomizeMatrix(prevNodeCount);
         biasMatrix = randomizeMatrix(1);
 
+    }
+    public void initGradMats(){
+        dCostWRTWeight = initMatrix(weightMatrix.getColumnDimension());
+        dCostWRTBias = initMatrix(1);
     }
     private Array2DRowFieldMatrix<Dfp> initMatrix(int x){
         DfpField dfp = new DfpField(3);
@@ -64,8 +68,19 @@ public class NetworkLayer {
     }
     public void backpropagation(Array2DRowFieldMatrix<Dfp> expectedVector){
         dCostWRTActivation = normalisedNodeMatrix.subtract(expectedVector);
-        computeDerivativeCostWRTWeight();
-        computeDerivativeCostWRTBias();
+        dCostWRTWeight = dCostWRTWeight.add(computeDerivativeCostWRTWeight()); // Average gradient's over batch size
+        dCostWRTBias = dCostWRTBias.add(computeDerivativeCostWRTBias());
+    }
+    public void stepGradientAndBias(int batchSize){
+        DfpField dfpField = new DfpField(3);
+        double normaliser = 1f / batchSize;
+        weightMatrix = weightMatrix.subtract(CustomMath.hadarmardDivision(
+                (Array2DRowFieldMatrix<Dfp>) dCostWRTWeight.scalarMultiply(dfpField.newDfp(normaliser)),
+                weightMatrix));
+        biasMatrix = biasMatrix.subtract(CustomMath.hadarmardDivision(
+                (Array2DRowFieldMatrix<Dfp>) dCostWRTBias.scalarMultiply(dfpField.newDfp(normaliser)),
+                biasMatrix));
+
     }
     public void backpropagation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation, Array2DRowFieldMatrix<Dfp> weightsLeavingLayer){
         computeDerivativeCostWRTActivation(subsequentCostWRTActivation, weightsLeavingLayer);
@@ -77,11 +92,11 @@ public class NetworkLayer {
                 CustomMath.sigmoidDerivative(nodeMatrix));
         // (Transpose WeightMatrix * Next derivative of cost WRT node activation) O Sigmoid Gradient of current node activation
     }
-    private void computeDerivativeCostWRTWeight(){
-        dCostWRTWeight = (Array2DRowFieldMatrix<Dfp>) dCostWRTActivation.multiply(normalisedNodeMatrix.transpose());
+    private Array2DRowFieldMatrix<Dfp> computeDerivativeCostWRTWeight(){
+        return (Array2DRowFieldMatrix<Dfp>) dCostWRTActivation.multiply(normalisedNodeMatrix.transpose());
     }
-    private void computeDerivativeCostWRTBias(){
-        dCostWRTBias = (Array2DRowFieldMatrix<Dfp>) dCostWRTActivation.copy();
+    private Array2DRowFieldMatrix<Dfp> computeDerivativeCostWRTBias(){
+        return (Array2DRowFieldMatrix<Dfp>) dCostWRTActivation.copy();
     }
     public int nodeMax(){
         int x = 0;

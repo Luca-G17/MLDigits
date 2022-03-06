@@ -31,7 +31,7 @@ public class Network {
         }
         return network.get(2).nodeMax();
     }
-    public Array2DRowFieldMatrix computeExpectedVector(int label){
+    public Array2DRowFieldMatrix<Dfp> computeExpectedVector(int label){
         Dfp[][] arr = new Dfp[9][1];
         DfpField dfpField = new DfpField(3);
         for (int i = 0; i < 9; i++){
@@ -42,7 +42,24 @@ public class Network {
         }
         return new Array2DRowFieldMatrix<>(arr);
     }
-    public void computeBackpropNetwork(TrainingImage image){
+    public void computeBackpropagationOverBatch(List<TrainingImage> image, int s, int n){
+        initNetworkGradMats();
+        for (int i = 0; i < n + s; i++){
+            computeBackpropagation(image.get(i));
+            computeGradientStep(n);
+        }
+    }
+    public void initNetworkGradMats(){
+        for (NetworkLayer networkLayer : network) {
+            networkLayer.initGradMats();
+        }
+    }
+    public void computeGradientStep(int batchSize){
+        for (NetworkLayer networkLayer : network) {
+            networkLayer.stepGradientAndBias(batchSize);
+        }
+    }
+    public void computeBackpropagation(TrainingImage image){
         computeNetwork(image);
         network.get(network.size() - 1).backpropagation(computeExpectedVector(image.getDigit()));
         for (int i = network.size() - 2; i >= 0; i--){
