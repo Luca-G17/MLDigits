@@ -14,21 +14,13 @@ import java.io.IOException;
 public class App extends Application {
     private static Scene scene;
     private final ImageProcessor processor = new ImageProcessor();
-    private final BinaryFileReader trainingReader = new BinaryFileReader(
-            "train-images.idx3-ubyte",
-            "train-labels.idx1-ubyte"
-    );
+
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-
-        trainingReader.ReadMats(0, 5, processor);
-        // ConsoleMatrixPrinter.printList(processor.getTrainingImages());
-        processor.testNetworkOnImage(2);
     }
-
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }

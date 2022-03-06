@@ -3,6 +3,7 @@ package Luca;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
+import java.io.Console;
 import java.util.List;
 
 
@@ -20,7 +21,7 @@ public class ConsoleMatrixPrinter<T extends FieldElement<T>> {
     }
 }
 */
-public class ConsoleMatrixPrinter {
+public class ConsolePrinter {
     public static void printImage(TrainingImage image){
         Array2DRowFieldMatrix<Dfp> mat = image.getMatrix();
         System.out.printf("Label: %d, ImageNum: %d%n", image.getDigit(), image.getIndex());
@@ -48,5 +49,13 @@ public class ConsoleMatrixPrinter {
         for (TrainingImage image : images){
             printImage(image);
         }
+    }
+    public static void printCost(NetworkLayer layer, int i){
+        Array2DRowFieldMatrix<Dfp> costs = layer.getdCostWRTActivation();
+        double total = 0;
+        for (Dfp entry : costs.getColumn(0)){
+            total += entry.toDouble();
+        }
+        System.out.printf("Image Num: %d\nCost: %f%n", i, total);
     }
 }

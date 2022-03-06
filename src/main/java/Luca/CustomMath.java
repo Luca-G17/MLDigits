@@ -1,12 +1,13 @@
 package Luca;
 
+
 import org.apache.commons.math3.analysis.function.Sigmoid;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
 public abstract class CustomMath {
-    public static Array2DRowFieldMatrix<Dfp> hadarmardDivision(Array2DRowFieldMatrix<Dfp> m1, Array2DRowFieldMatrix<Dfp> m2){
+    public static Array2DRowFieldMatrix<Dfp> hadamardDivision(Array2DRowFieldMatrix<Dfp> m1, Array2DRowFieldMatrix<Dfp> m2){
         if (m1.getColumnDimension() != m2.getColumnDimension() || m1.getRowDimension() != m2.getRowDimension()){
             throw new RuntimeException(String.format("Dimensions don't match m1: (%d, %d) m2: (%d, %d)",
                     m1.getRowDimension(),
@@ -15,10 +16,14 @@ public abstract class CustomMath {
                     m2.getColumnDimension()));
         }
         else{
+            DfpField dfpField = new DfpField(3);
             Dfp[][] arr = new Dfp[m1.getRowDimension()][m1.getColumnDimension()];
             for (int i = 0; i < m1.getRowDimension(); i++){
                 for (int j = 0; j < m1.getColumnDimension(); j++){
-                    arr[i][j] = m1.getEntry(i, j).divide(m2.getEntry(i, j));
+                    if (!m2.getEntry(i, j).isZero())
+                        arr[i][j] = m1.getEntry(i, j).divide(m2.getEntry(i, j));
+                    else
+                        arr[i][j] = dfpField.newDfp(0);
                 }
             }
             return new Array2DRowFieldMatrix<>(arr);
@@ -59,7 +64,7 @@ public abstract class CustomMath {
         DfpField dfpField = new DfpField(3);
         for (int i = 0; i < mat.getRowDimension(); i++){
             for (int j = 0; j < mat.getColumnDimension(); j++){
-                double[] sigGrad = sig.gradient(mat.getEntry(i, j).toDouble()); // Sigmoid Gradient = o(x)(1 - o(x))
+                double[] sigGrad = sig.gradient(mat.getEntry(i, j).toDouble(), 0, 1); // Sigmoid Gradient = o(x)(1 - o(x))
                 arr[i][j] = dfpField.newDfp(sigGrad[0] * sigGrad[1]);
             }
         }
