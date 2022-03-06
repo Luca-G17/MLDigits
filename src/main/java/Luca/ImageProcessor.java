@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ImageProcessor {
 
-    private List<TrainingImage> trainingImages = new ArrayList<>();
+    private final List<TrainingImage> trainingImages = new ArrayList<>();
 
     public List<TrainingImage> getTrainingImages() {
         return trainingImages;
@@ -13,7 +13,7 @@ public class ImageProcessor {
     public void addTrainingImage(TrainingImage t){
        trainingImages.add(t);
     }
-    private Network network = new Network(16, 2);
+    private final Network network = new Network(16, 2);
 
 
     public void testNetworkOnImage(int i){

@@ -1,17 +1,15 @@
 package Luca;
 
-import org.apache.commons.math3.analysis.function.Sigmoid;
 import org.apache.commons.math3.dfp.Dfp;
-import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Network {
-    private List<NetworkLayer> network = new ArrayList<>();
-    private int nodeCount;
-    private int layerCount;
+    private final List<NetworkLayer> network = new ArrayList<>();
+    private final int nodeCount;
+    private final int layerCount;
 
     Network(int nodeCount, int layerCount){
         this.layerCount = layerCount;
@@ -27,7 +25,7 @@ public class Network {
         Array2DRowFieldMatrix<Dfp> prevActivation = image.getMatrixAsVector();
         for (NetworkLayer layer : network){
             layer.computeCurrentActivation(prevActivation);
-            prevActivation = layer.getNodeMatrix();
+            prevActivation = layer.getNormalisedNodeMatrix();
         }
         return network.get(2).nodeMax();
     }
