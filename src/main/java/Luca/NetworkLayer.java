@@ -1,6 +1,5 @@
 package Luca;
 
-import org.apache.commons.math3.analysis.function.Sigmoid;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
@@ -9,13 +8,18 @@ import java.util.Random;
 
 public class NetworkLayer {
     private final int nodeCount;
+    private Array2DRowFieldMatrix<Dfp> normalisedNodeMatrix;
     private Array2DRowFieldMatrix<Dfp> nodeMatrix;
     private final Array2DRowFieldMatrix<Dfp> weightMatrix; // Weights Entering Layer
     private final Array2DRowFieldMatrix<Dfp> biasMatrix; // Bias on Layer
 
+    private Array2DRowFieldMatrix<Dfp> dCostWRTActivation;
+    private Array2DRowFieldMatrix<Dfp> dCostWRTWeight;
+    private Array2DRowFieldMatrix<Dfp> dCostWRTBias;
+
     NetworkLayer(int nodeCount, int prevNodeCount) {
         this.nodeCount = nodeCount;
-        this.nodeMatrix = initMatrix(1);
+        this.normalisedNodeMatrix = initMatrix(1);
         weightMatrix = randomizeMatrix(prevNodeCount);
         biasMatrix = randomizeMatrix(1);
 
@@ -43,7 +47,7 @@ public class NetworkLayer {
         return new Array2DRowFieldMatrix<>(arr);
     }
     public void SetLayerActivation(Array2DRowFieldMatrix<Dfp> activation){
-        nodeMatrix = activation;
+        normalisedNodeMatrix = activation;
     }
 
     public Array2DRowFieldMatrix<Dfp> getBiasMatrix() {
@@ -53,29 +57,35 @@ public class NetworkLayer {
     public Array2DRowFieldMatrix<Dfp> getWeightMatrix() {
         return weightMatrix;
     }
-    private Array2DRowFieldMatrix<Dfp> sigmoid(Array2DRowFieldMatrix<Dfp> mat){
-        Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
-        Sigmoid sig = new Sigmoid();
-        DfpField dfpField = new DfpField(3);
-        for (int i = 0; i < mat.getRowDimension(); i++){
-            for (int j = 0; j < mat.getColumnDimension(); j++){
-                arr[i][j] = dfpField.newDfp(sig.value(mat.getEntry(i, j).toDouble()));
-            }
-        }
-        return new Array2DRowFieldMatrix<>(arr);
-    }
     public void computeCurrentActivation(Array2DRowFieldMatrix<Dfp> prevLayerActivation){
-        nodeMatrix = sigmoid((weightMatrix.multiply(prevLayerActivation)).add(biasMatrix));
+        nodeMatrix = (weightMatrix.multiply(prevLayerActivation)).add(biasMatrix);
+        normalisedNodeMatrix = CustomMath.sigmoid(nodeMatrix);
+    }
+    public void backpropagation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation){
+        computeDerivativeCostWRTActivation(subsequentCostWRTActivation);
+        computeDerivativeCostWRTWeight();
+        computeDerivativeCostWRTBias();
+    }
+    private void computeDerivativeCostWRTActivation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation){
+        dCostWRTActivation = CustomMath.hadamardProduct((Array2DRowFieldMatrix<Dfp>) (weightMatrix.transpose()).multiply(subsequentCostWRTActivation),
+                CustomMath.sigmoidDerivative(nodeMatrix));
+        // (Transpose WeightMatrix * Next derivative of cost WRT node activation) O Sigmoid Gradient of current node activation
+    }
+    private void computeDerivativeCostWRTWeight(){
+        dCostWRTWeight = (Array2DRowFieldMatrix<Dfp>) dCostWRTActivation.multiply(normalisedNodeMatrix.transpose());
+    }
+    private void computeDerivativeCostWRTBias(){
+        dCostWRTBias = (Array2DRowFieldMatrix<Dfp>) dCostWRTActivation.copy();
     }
     public int nodeMax(){
         int x = 0;
         for (int i = 0; i < nodeCount; i++){
-            if (nodeMatrix.getEntry(i, 0).greaterThan(nodeMatrix.getEntry(x, 0)))
+            if (normalisedNodeMatrix.getEntry(i, 0).greaterThan(normalisedNodeMatrix.getEntry(x, 0)))
                 x = i;
         }
         return x;
     }
-    public Array2DRowFieldMatrix<Dfp> getNodeMatrix(){
-        return nodeMatrix;
+    public Array2DRowFieldMatrix<Dfp> getNormalisedNodeMatrix(){
+        return normalisedNodeMatrix;
     }
 }

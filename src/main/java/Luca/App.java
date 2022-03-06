@@ -12,10 +12,9 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
     private static Scene scene;
-    private ImageProcessor processor = new ImageProcessor();
-    private BinaryFileReader trainingReader = new BinaryFileReader(
+    private final ImageProcessor processor = new ImageProcessor();
+    private final BinaryFileReader trainingReader = new BinaryFileReader(
             "train-images.idx3-ubyte",
             "train-labels.idx1-ubyte"
     );

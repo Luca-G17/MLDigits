@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ImageProcessor {
 
-    private List<TrainingImage> trainingImages = new ArrayList<>();
+    private final List<TrainingImage> trainingImages = new ArrayList<>();
 
     public List<TrainingImage> getTrainingImages() {
         return trainingImages;

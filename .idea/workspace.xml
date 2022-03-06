@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0a14b40-1d49-4f79-8219-dae73e44e08b" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" afterDir="false" />
@@ -12,6 +13,15 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/NetworkLayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/NetworkLayer.class" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/CustomMath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" afterDir="false" />
+>>>>>>> b8c6325518533491d392cd3943d3077955b1711d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +105,7 @@
       <workItem from="1646308328111" duration="2033000" />
       <workItem from="1646310626459" duration="6203000" />
       <workItem from="1646391720558" duration="677000" />
+      <workItem from="1646569812986" duration="4154000" />
     </task>
     <servers />
   </component>
