@@ -9,13 +9,14 @@ import java.util.List;
 
 public class Network {
     private final List<NetworkLayer> network = new ArrayList<>();
-
-    private final int nodeCount;
     private final int layerCount;
+
+    Network(int layerCount) {
+        this.layerCount = layerCount;
+    }
 
     Network(int nodeCount, int layerCount){
         this.layerCount = layerCount;
-        this.nodeCount = nodeCount;
         network.add(new NetworkLayer(nodeCount, 784));
         for (int i = 1; i < layerCount; i++){
             network.add(new NetworkLayer(nodeCount, nodeCount));
@@ -69,5 +70,15 @@ public class Network {
         }
         network.get(0).backpropagation(image.getMatrixAsVector(), network.get(1).getdCostWRTActivation(), network.get(1).getWeightMatrix());
         // ConsolePrinter.printCost(network.get(network.size() - 1), image.getIndex());
+    }
+
+    public List<NetworkLayer> getNetwork() {
+        return network;
+    }
+    public void addLayer(NetworkLayer layer){
+        network.add(layer);
+    }
+    public int getLayerCount() {
+        return layerCount;
     }
 }

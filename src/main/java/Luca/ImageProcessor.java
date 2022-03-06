@@ -14,14 +14,18 @@ public class ImageProcessor {
     public void addTrainingImage(TrainingImage t){
        trainingImages.add(t);
     }
-    private final Network network = new Network(16, 2);
-    private final BinaryFileReader trainingReader = new BinaryFileReader(
+    private final Network network;
+    private final BinaryFileReaderWriter fileReaderWriter = new BinaryFileReaderWriter(
             "train-images.idx3-ubyte",
-            "train-labels.idx1-ubyte"
+            "train-labels.idx1-ubyte",
+            "/home/lucag/Documents/HomeStuff/JavaProjects/MLDigits/target/classes/Luca/Network1"
     );
     public ImageProcessor(){
+        network = new Network(16, 2);
         trainNetwork();
-        testNetworkOnImage(35);
+        //fileReaderWriter.ReadMats(0, 36, this);
+        //network = fileReaderWriter.readNetwork();
+        testNetworkOnImage(1);
     }
     public void testNetworkOnImage(int i){
         if (i < trainingImages.size()){
@@ -33,8 +37,9 @@ public class ImageProcessor {
     }
     public void trainNetwork(){
         for (int i = 0; i < TOTAL_BATCHES; i++){
-            trainingReader.ReadMats(i * BATCH_SIZE, BATCH_SIZE, this);
+            fileReaderWriter.ReadMats(i * BATCH_SIZE, BATCH_SIZE, this);
             network.trainNetworkOnBatch(trainingImages.subList(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE));
         }
+        fileReaderWriter.writeNetwork(network);
     }
 }

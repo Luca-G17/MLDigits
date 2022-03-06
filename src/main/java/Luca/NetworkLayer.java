@@ -17,6 +17,13 @@ public class NetworkLayer {
     private Array2DRowFieldMatrix<Dfp> dCostWRTWeight;
     private Array2DRowFieldMatrix<Dfp> dCostWRTBias;
 
+    NetworkLayer(int nodeCount, Array2DRowFieldMatrix<Dfp> weightMatrix, Array2DRowFieldMatrix<Dfp> biasMatrix){
+        this.nodeCount = nodeCount;
+        this.normalisedNodeMatrix = initMatrix(1);
+        this.weightMatrix = weightMatrix;
+        this.biasMatrix = biasMatrix;
+    }
+
     NetworkLayer(int nodeCount, int prevNodeCount) {
         this.nodeCount = nodeCount;
         this.normalisedNodeMatrix = initMatrix(1);
@@ -110,5 +117,8 @@ public class NetworkLayer {
     }
     public Array2DRowFieldMatrix<Dfp> getdCostWRTActivation(){
         return dCostWRTActivation;
+    }
+    public int getNodeCount() {
+        return nodeCount;
     }
 }

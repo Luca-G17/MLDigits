@@ -70,4 +70,7 @@ public abstract class CustomMath {
         }
         return new Array2DRowFieldMatrix<>(arr);
     }
+    public static int getWeightCount(NetworkLayer layer){
+        return layer.getWeightMatrix().getColumnDimension() * layer.getWeightMatrix().getRowDimension();
+    }
 }
