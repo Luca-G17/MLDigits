@@ -17,8 +17,8 @@ public class BinaryFileReader {
     private static final int IMAGE_META_BUFFER_SIZE = 16;
     private static final int IMAGE_DIMENSION = 28;
     private static final int LABEL_META_BUFFER_SIZE = 8;
-    private String imageFilename;
-    private String labelFilename;
+    private final String imageFilename;
+    private final String labelFilename;
 
     BinaryFileReader(String imageFilename, String labelFilename){
         this.imageFilename = FilenameResourceResolver.resolvePath(imageFilename);
@@ -42,14 +42,14 @@ public class BinaryFileReader {
             byte[] metaBuffer = new byte[IMAGE_META_BUFFER_SIZE + s * IMAGE_DIMENSION * IMAGE_DIMENSION];
             int bytesRead = inputStream.read(metaBuffer);
 
-            Dfp arr[][] = new Dfp[IMAGE_DIMENSION][IMAGE_DIMENSION];
+            Dfp[][] arr = new Dfp[IMAGE_DIMENSION][IMAGE_DIMENSION];
             byte[] buffer = new byte[BUFFER_SIZE];
             List<Array2DRowFieldMatrix<Dfp>> matrices = new ArrayList<>();
 
-            byte labels[] = readLabels(s, n);
+            byte[] labels = readLabels(s, n);
             int matCount = -1;
             DfpField dfpField = new DfpField(0);
-            while((bytesRead = inputStream.read(buffer)) != -1 && matrices.size() < n){
+            while(inputStream.read(buffer) != -1 && matrices.size() < n){
                 int b = 0;
                 matCount++;
                 for (int i = 0; i < IMAGE_DIMENSION; i++){
@@ -57,7 +57,7 @@ public class BinaryFileReader {
                         arr[i][j] = dfpField.newDfp(buffer[b++]);
                     }
                 }
-                matrices.add(new Array2DRowFieldMatrix<Dfp>(arr));
+                matrices.add(new Array2DRowFieldMatrix<>(arr));
                 processor.addTrainingImage(new TrainingImage(arr, s + matCount, labels[matCount]));
 
             }

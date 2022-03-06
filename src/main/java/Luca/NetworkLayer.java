@@ -8,10 +8,10 @@ import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 import java.util.Random;
 
 public class NetworkLayer {
-    private int nodeCount;
+    private final int nodeCount;
     private Array2DRowFieldMatrix<Dfp> nodeMatrix;
-    private Array2DRowFieldMatrix<Dfp> weightMatrix; // Weights Entering Layer
-    private Array2DRowFieldMatrix<Dfp> biasMatrix; // Bias on Layer
+    private final Array2DRowFieldMatrix<Dfp> weightMatrix; // Weights Entering Layer
+    private final Array2DRowFieldMatrix<Dfp> biasMatrix; // Bias on Layer
 
     NetworkLayer(int nodeCount, int prevNodeCount) {
         this.nodeCount = nodeCount;
@@ -22,7 +22,7 @@ public class NetworkLayer {
     }
     private Array2DRowFieldMatrix<Dfp> initMatrix(int x){
         DfpField dfp = new DfpField(3);
-        Dfp arr[][] = new Dfp[nodeCount][x];
+        Dfp[][] arr = new Dfp[nodeCount][x];
         for (int i = 0; i < nodeCount; i++){
             for (int j = 0; j < x; j++){
                 arr[i][j] = dfp.newDfp(0);
@@ -33,7 +33,7 @@ public class NetworkLayer {
     private Array2DRowFieldMatrix<Dfp> randomizeMatrix(int x){
         DfpField dfp = new DfpField(3);
         Random rand = new Random();
-        Dfp arr[][] = new Dfp[nodeCount][x];
+        Dfp[][] arr = new Dfp[nodeCount][x];
         for (int i = 0; i < nodeCount; i++){
             for (int j = 0; j < x; j++){
                 int r = rand.nextInt(10) - 5;
@@ -54,7 +54,7 @@ public class NetworkLayer {
         return weightMatrix;
     }
     private Array2DRowFieldMatrix<Dfp> sigmoid(Array2DRowFieldMatrix<Dfp> mat){
-        Dfp arr[][] = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
+        Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
         Sigmoid sig = new Sigmoid();
         DfpField dfpField = new DfpField(3);
         for (int i = 0; i < mat.getRowDimension(); i++){

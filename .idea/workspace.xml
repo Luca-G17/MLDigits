@@ -5,19 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0a14b40-1d49-4f79-8219-dae73e44e08b" name="Changes" comment="">
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ConsoleMatrixPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" afterDir="false" />
->>>>>>> 3de04c32c99c453b32d1fbc18a3ae7952b44904a
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Luca/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Luca/NetworkLayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/NetworkLayer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +67,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11 (2)" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Luca.App" />
-      <module name="MLDigitRecognition" />
+      <module name="MLDigits" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Luca.*" />

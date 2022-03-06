@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Network {
-    private List<NetworkLayer> network = new ArrayList<>();
+    private final List<NetworkLayer> network = new ArrayList<>();
     private int nodeCount;
     private int layerCount;
 
