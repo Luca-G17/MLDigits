@@ -10,6 +10,7 @@ import java.util.List;
 public class Network {
     private final List<NetworkLayer> network = new ArrayList<>();
     private final int layerCount;
+    public static final int DECIMAL_DIGITS = 5;
 
     Network(int layerCount) {
         this.layerCount = layerCount;
@@ -34,7 +35,7 @@ public class Network {
     }
     public Array2DRowFieldMatrix<Dfp> computeExpectedVector(int label){
         Dfp[][] arr = new Dfp[10][1];
-        DfpField dfpField = new DfpField(3);
+        DfpField dfpField = new DfpField(DECIMAL_DIGITS);
         for (int i = 0; i < 10; i++){
             if (i == label)
                 arr[i][0] = dfpField.newDfp(1);
@@ -51,8 +52,8 @@ public class Network {
         }
     }
     public void initNetworkGradMats(){
-        for (int i = 0; i < network.size(); i++){
-            network.get(i).initGradMats();
+        for (NetworkLayer networkLayer : network) {
+            networkLayer.initGradMats();
         }
 
     }
@@ -77,8 +78,5 @@ public class Network {
     }
     public void addLayer(NetworkLayer layer){
         network.add(layer);
-    }
-    public int getLayerCount() {
-        return layerCount;
     }
 }

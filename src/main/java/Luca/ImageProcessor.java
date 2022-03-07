@@ -8,9 +8,7 @@ public class ImageProcessor {
     private final List<TrainingImage> trainingImages = new ArrayList<>();
     private static final int TOTAL_BATCHES = 30;
     private static final int BATCH_SIZE = 10;
-    public List<TrainingImage> getTrainingImages() {
-        return trainingImages;
-    }
+
     public void addTrainingImage(TrainingImage t){
        trainingImages.add(t);
     }
@@ -21,10 +19,10 @@ public class ImageProcessor {
             "/home/lucag/Documents/HomeStuff/JavaProjects/MLDigits/target/classes/Luca/Network1"
     );
     public ImageProcessor(){
-        network = new Network(16, 2);
-        trainNetwork();
-        //fileReaderWriter.ReadMats(0, 36, this);
-        //network = fileReaderWriter.readNetwork();
+        // network = new Network(16, 2);
+        // trainNetwork();
+        fileReaderWriter.ReadMats(0, 36, this);
+        network = fileReaderWriter.readNetwork();
         testNetworkOnImage(1);
     }
     public void testNetworkOnImage(int i){
@@ -41,5 +39,9 @@ public class ImageProcessor {
             network.trainNetworkOnBatch(trainingImages.subList(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE));
         }
         fileReaderWriter.writeNetwork(network);
+    }
+
+    public List<TrainingImage> getTrainingImages() {
+        return trainingImages;
     }
 }

@@ -19,10 +19,10 @@ public class TrainingImage {
     }
     public Array2DRowFieldMatrix<Dfp> getMatrixAsVector(){
         Dfp[][] arr = new Dfp[matrix.getColumnDimension() * matrix.getRowDimension()][1];
-        DfpField dfpField = new DfpField(0);
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
         for (int i = 0; i < matrix.getRowDimension(); i++){
             for (int j = 0; j < matrix.getColumnDimension(); j++){
-                if (matrix.getEntry(i, j).isZero()) arr[matrix.getRowDimension() * i + j][0] = dfpField.newDfp(0);
+                if (matrix.getEntry(i, j).isZero()) arr[matrix.getRowDimension() * i + j][0] = dfpField.newDfp(Network.DECIMAL_DIGITS);
                 else arr[matrix.getRowDimension() * i + j][0] = dfpField.newDfp(1);
             }
         }

@@ -52,7 +52,7 @@ public class BinaryFileReaderWriter {
     }
     public void writeNetwork(Network network){
         List<NetworkLayer> layers = network.getNetwork();
-        DataOutputStream outFile = null;
+        DataOutputStream outFile;
         try {
             outFile = new DataOutputStream(new FileOutputStream(networkFilename));
             outFile.writeInt(layers.size());
@@ -67,7 +67,7 @@ public class BinaryFileReaderWriter {
         int rowCount = inFile.readInt();
         int colCount = inFile.readInt();
         int biasCount = inFile.readInt();
-        DfpField dfpField = new DfpField(3);
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
         Dfp[][] wArr = new Dfp[rowCount][colCount];
         for (int i = 0; i < rowCount; i++){
             for (int j = 0; j < colCount; j++){
@@ -83,7 +83,7 @@ public class BinaryFileReaderWriter {
         return new NetworkLayer(biasCount, weights, bias);
     }
     public Network readNetwork(){
-        DataInputStream inFile = null;
+        DataInputStream inFile;
         try {
             inFile = new DataInputStream(new FileInputStream(networkFilename));
             int layerCount = inFile.readInt();

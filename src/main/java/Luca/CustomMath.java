@@ -16,7 +16,7 @@ public abstract class CustomMath {
                     m2.getColumnDimension()));
         }
         else{
-            DfpField dfpField = new DfpField(3);
+            DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
             Dfp[][] arr = new Dfp[m1.getRowDimension()][m1.getColumnDimension()];
             for (int i = 0; i < m1.getRowDimension(); i++){
                 for (int j = 0; j < m1.getColumnDimension(); j++){
@@ -50,7 +50,7 @@ public abstract class CustomMath {
     public static Array2DRowFieldMatrix<Dfp> sigmoid(Array2DRowFieldMatrix<Dfp> mat){
         Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
         Sigmoid sig = new Sigmoid();
-        DfpField dfpField = new DfpField(3);
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
         for (int i = 0; i < mat.getRowDimension(); i++){
             for (int j = 0; j < mat.getColumnDimension(); j++){
                 arr[i][j] = dfpField.newDfp(sig.value(mat.getEntry(i, j).toDouble()));
@@ -61,7 +61,7 @@ public abstract class CustomMath {
     public static Array2DRowFieldMatrix<Dfp> sigmoidDerivative(Array2DRowFieldMatrix<Dfp> mat){
         Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
         Sigmoid.Parametric sig = new Sigmoid.Parametric();
-        DfpField dfpField = new DfpField(3);
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
         for (int i = 0; i < mat.getRowDimension(); i++){
             for (int j = 0; j < mat.getColumnDimension(); j++){
                 double[] sigGrad = sig.gradient(mat.getEntry(i, j).toDouble(), 0, 1); // Sigmoid Gradient = o(x)(1 - o(x))
@@ -69,8 +69,5 @@ public abstract class CustomMath {
             }
         }
         return new Array2DRowFieldMatrix<>(arr);
-    }
-    public static int getWeightCount(NetworkLayer layer){
-        return layer.getWeightMatrix().getColumnDimension() * layer.getWeightMatrix().getRowDimension();
     }
 }

@@ -36,7 +36,7 @@ public class NetworkLayer {
     }
 
     private Array2DRowFieldMatrix<Dfp> initMatrix(int x){
-        DfpField dfp = new DfpField(3);
+        DfpField dfp = new DfpField(Network.DECIMAL_DIGITS);
         Dfp[][] arr = new Dfp[nodeCount][x];
         for (int i = 0; i < nodeCount; i++){
             for (int j = 0; j < x; j++){
@@ -46,7 +46,7 @@ public class NetworkLayer {
         return new Array2DRowFieldMatrix<>(arr);
     }
     private Array2DRowFieldMatrix<Dfp> randomizeMatrix(int x){
-        DfpField dfp = new DfpField(3);
+        DfpField dfp = new DfpField(Network.DECIMAL_DIGITS);
         Random rand = new Random();
         Dfp[][] arr = new Dfp[nodeCount][x];
         for (int i = 0; i < nodeCount; i++){
@@ -56,9 +56,6 @@ public class NetworkLayer {
             }
         }
         return new Array2DRowFieldMatrix<>(arr);
-    }
-    public void SetLayerActivation(Array2DRowFieldMatrix<Dfp> activation){
-        normalisedNodeMatrix = activation;
     }
 
     public Array2DRowFieldMatrix<Dfp> getBiasMatrix() {
@@ -83,7 +80,7 @@ public class NetworkLayer {
         computeDerivativeCostWRTBias();
     }
     public void stepGradientAndBias(int batchSize){
-        DfpField dfpField = new DfpField(3);
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
         double normaliser = 1f / batchSize;
         weightMatrix = weightMatrix.subtract(CustomMath.hadamardDivision(
                 (Array2DRowFieldMatrix<Dfp>) dCostWRTWeight.scalarMultiply(dfpField.newDfp(normaliser)),
