@@ -11,23 +11,29 @@ public class ImageProcessor {
        trainingImages.add(t);
     }
     private final Network network;
-    private final BinaryFileReaderWriter fileReaderWriter;
+    private BinaryFileReaderWriter fileReaderWriter;
+    private boolean networkFound;
 
     public ImageProcessor(int nodes, int layers, String networkName){
-        fileReaderWriter = new BinaryFileReaderWriter(
-                FilenameResourceResolver.resolvePath("train-images.idx3-ubyte"),
-                FilenameResourceResolver.resolvePath("train-labels.idx1-ubyte"),
-                "target/classes/Luca/" + networkName
-        );
+        initFileReaderWriter(networkName);
         network = new Network(nodes, layers, networkName);
     }
     public ImageProcessor(String networkName){
-        fileReaderWriter = new BinaryFileReaderWriter(
-                FilenameResourceResolver.resolvePath("train-images.idx3-ubyte"),
-                FilenameResourceResolver.resolvePath("train-labels.idx1-ubyte"),
-                FilenameResourceResolver.resolvePath(networkName)
-        );
+        initFileReaderWriter(networkName);
         network = fileReaderWriter.readNetwork();
+        networkFound = network == null;
+    }
+
+    public boolean isNetworkFound() {
+        return networkFound;
+    }
+
+    private void initFileReaderWriter(String networkName){
+        fileReaderWriter = new BinaryFileReaderWriter(
+                "train-images.idx3-ubyte",
+                "train-labels.idx1-ubyte",
+                networkName
+        );
     }
     public void testNetworkOnImage(int i){
         if (i < trainingImages.size()){
@@ -42,6 +48,12 @@ public class ImageProcessor {
             fileReaderWriter.ReadMats(i * batchSize, batchSize, this);
             network.trainNetworkOnBatch(trainingImages.subList(i * batchSize, i * batchSize + batchSize));
         }
+    }
+    public int getLayerCount(){
+        return network.getNetwork().size() - 1;
+    }
+    public int getNodeCount(){
+        return network.getNetwork().get(0).getNodeCount();
     }
     public void saveNetwork(){
         fileReaderWriter.writeNetwork(network);

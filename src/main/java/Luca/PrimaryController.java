@@ -25,6 +25,7 @@ public class PrimaryController {
     private VerticalPanelTextField layerCountField;
     private VerticalPanelTextField networkNameField;
     private final Label generalOutput = new Label();
+    private final Label networkLabel = new Label("Network: No Network");
     private ImageProcessor processor;
 
     public void initialize(){
@@ -50,6 +51,7 @@ public class PrimaryController {
         VBox titlePanel = new VBox();
         generalOutput.prefHeight(60);
         generalOutput.setWrapText(true);
+        networkLabel.setWrapText(true);
 
         batchCountField = new VerticalPanelTextField("Batch Count", "");
         batchSizeField = new VerticalPanelTextField("Batch Size", "");
@@ -59,9 +61,10 @@ public class PrimaryController {
         EventHandler<ActionEvent> creatingEvent = (e -> onCreatingClick());
         EventHandler<ActionEvent> trainingEvent = (e -> onTrainingClick());
         EventHandler<ActionEvent> savingEvent = (e -> onSavingClick());
+        EventHandler<ActionEvent> loadingEvent = (e -> onLoadingClick());
         CustomButton creatingButton = new CustomButton(
                 "-fx-background-color: linear-gradient(to bottom left, #fc5523, #f54b64)",
-                "CREATE NETWORK",
+                "NEW NETWORK",
                 creatingEvent
         );
         CustomButton trainingButton = new CustomButton(
@@ -74,14 +77,21 @@ public class PrimaryController {
                 "SAVE NETWORK",
                 savingEvent
         );
+        CustomButton loadingButton = new CustomButton(
+                "-fx-background-color: linear-gradient(to bottom left, #0042b5, #4286fc)",
+                "LOAD NETWORK",
+                loadingEvent
+        );
+        buttonPanel.getChildren().add(networkLabel);
         buttonPanel.getChildren().add(layerCountField.getvBox());
         buttonPanel.getChildren().add(nodeCountField.getvBox());
-        buttonPanel.getChildren().add(batchCountField.getvBox());
-        buttonPanel.getChildren().add(batchSizeField.getvBox());
         buttonPanel.getChildren().add(networkNameField.getvBox());
         buttonPanel.getChildren().add(creatingButton.getButton());
+        buttonPanel.getChildren().add(batchCountField.getvBox());
+        buttonPanel.getChildren().add(batchSizeField.getvBox());
         buttonPanel.getChildren().add(trainingButton.getButton());
         buttonPanel.getChildren().add(savingButton.getButton());
+        buttonPanel.getChildren().add(loadingButton.getButton());
         buttonPanel.getChildren().add(generalOutput);
 
         titlePanel.getChildren().add(welcomeLabel);
@@ -89,7 +99,22 @@ public class PrimaryController {
         borderPane.setTop(titlePanel);
         borderPane.setLeft(buttonPanel);
     }
-
+    public void onLoadingClick(){
+        String networkName = networkNameField.getText();
+        if (networkName.length() == 0)
+            generalOutput.setText("ERROR: Network Name input invalid");
+        else{
+            processor = new ImageProcessor(networkName);
+            if (processor.isNetworkFound()) {
+                networkLabel.setText(String.format("Network - %s\nNODES = %d, LAYERS = %d", networkName, processor.getNodeCount(), processor.getLayerCount()));
+                generalOutput.setText("SUCCESS: Network loaded");
+            }
+            else{
+                processor = null;
+                generalOutput.setText("ERROR: Network doesn't exist");
+            }
+        }
+    }
     public void onCreatingClick(){
         String nodeCountStr = nodeCountField.getText();
         String layerCountStr = layerCountField.getText();
@@ -99,8 +124,14 @@ public class PrimaryController {
         else{
             int nodeCount = CustomMath.strToInt(nodeCountStr);
             int layerCount = CustomMath.strToInt(layerCountStr);
-            processor = new ImageProcessor(nodeCount, layerCount, networkName);
-            generalOutput.setText(String.format("SUCCESS: Network Created, NODES = %d, LAYERS = %d", nodeCount, layerCount));
+            if (nodeCount > 0 && layerCount > 1){
+                processor = new ImageProcessor(nodeCount, layerCount, networkName);
+                generalOutput.setText("SUCCESS: Network Created");
+                networkLabel.setText(String.format("Network - %s\nNODES = %d, LAYERS = %d", networkName, processor.getNodeCount(), processor.getLayerCount()));
+            }
+            else{
+                generalOutput.setText("ERROR: Node/Layer Count inputs invalid");
+            }
         }
     }
     public void onTrainingClick(){
@@ -113,6 +144,9 @@ public class PrimaryController {
             int batchSize = CustomMath.strToInt(batchSizeField.getText());
             if (batchCount * batchSize > 60000)
                 generalOutput.setText("ERROR: Batch Count * Batch Size > 60,000");
+            else if (batchCount < 1 || batchSize < 1){
+                generalOutput.setText("ERROR: Invalid Batch Count or Batch Size input");
+            }
             else if (processor == null)
                 generalOutput.setText("ERROR: No network to train");
             else {

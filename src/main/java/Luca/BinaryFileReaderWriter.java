@@ -19,9 +19,9 @@ public class BinaryFileReaderWriter {
     private final String networkFilename;
 
     BinaryFileReaderWriter(String imageFilename, String labelFilename, String networkFilename){
-        this.imageFilename = imageFilename;
-        this.labelFilename = labelFilename;
-        this.networkFilename = networkFilename;
+        this.imageFilename = FilenameResourceResolver.resolvePath(imageFilename);
+        this.labelFilename = FilenameResourceResolver.resolvePath(labelFilename);
+        this.networkFilename = "target/classes/Luca/" + networkFilename;
     }
     private byte[] readLabels(int s, int n){
         byte[] buffer = new byte[n];
@@ -94,9 +94,8 @@ public class BinaryFileReaderWriter {
             return newNetwork;
         }
         catch (IOException e){
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
     public void ReadMats(int s, int n, ImageProcessor processor){
         try (InputStream inputStream = new BufferedInputStream(new FileInputStream(imageFilename))){
