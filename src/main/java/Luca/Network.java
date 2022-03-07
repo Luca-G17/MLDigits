@@ -11,13 +11,16 @@ public class Network {
     private final List<NetworkLayer> network = new ArrayList<>();
     private final int layerCount;
     public static final int DECIMAL_DIGITS = 5;
+    private String name;
 
-    Network(int layerCount) {
+    Network(int layerCount, String name) {
         this.layerCount = layerCount;
+        this.name = name;
     }
 
-    Network(int nodeCount, int layerCount){
+    Network(int nodeCount, int layerCount, String name){
         this.layerCount = layerCount;
+        this.name = name;
         network.add(new NetworkLayer(nodeCount, 784));
         for (int i = 1; i < layerCount; i++){
             network.add(new NetworkLayer(nodeCount, nodeCount));

@@ -5,27 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0a14b40-1d49-4f79-8219-dae73e44e08b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/Roboto-Light.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/Roboto-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/CustomButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Luca/VerticalPanelTextField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Luca/Roboto-Regular.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReaderWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/BinaryFileReaderWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/CustomMath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/CustomMath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/ImageProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/NetworkLayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Luca/PrimaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/PrimaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Luca/TrainingImage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Luca/primary.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Luca/primary.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReaderWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/BinaryFileReaderWriter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/CustomMath.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/CustomMath.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/ImageProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/ImageProcessor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/Network.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/NetworkLayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/NetworkLayer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/PrimaryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/PrimaryController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Luca/TrainingImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/TrainingImage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Luca/primary.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Luca/primary.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +72,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -112,7 +109,8 @@
       <workItem from="1646391720558" duration="677000" />
       <workItem from="1646569812986" duration="4154000" />
       <workItem from="1646597269063" duration="1913000" />
-      <workItem from="1646607883282" duration="4166000" />
+      <workItem from="1646607883282" duration="4209000" />
+      <workItem from="1646662178812" duration="11318000" />
     </task>
     <servers />
   </component>

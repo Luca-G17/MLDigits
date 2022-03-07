@@ -10,10 +10,6 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane fx:id="borderPane" fx:controller="Luca.PrimaryController" xmlns:fx="http://javafx.com/fxml">
-   <HBox BorderPane.alignment="TOP_RIGHT" spacing="2" >
-      <Label fx:id="welcomeLabel" text="Multilayer Perceptron using the MNIST database" minWidth="1000"/>
-   </HBox>
-
+<BorderPane fx:id="borderPane" fx:controller="Luca.PrimaryController" xmlns:fx="http://javafx.com/fxml" >
 
 </BorderPane>

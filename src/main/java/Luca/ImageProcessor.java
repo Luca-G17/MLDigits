@@ -6,24 +6,28 @@ import java.util.List;
 public class ImageProcessor {
 
     private final List<TrainingImage> trainingImages = new ArrayList<>();
-    private static final int TOTAL_BATCHES = 30;
-    private static final int BATCH_SIZE = 10;
 
     public void addTrainingImage(TrainingImage t){
        trainingImages.add(t);
     }
     private final Network network;
-    private final BinaryFileReaderWriter fileReaderWriter = new BinaryFileReaderWriter(
-            "train-images.idx3-ubyte",
-            "train-labels.idx1-ubyte",
-            "/home/lucag/Documents/HomeStuff/JavaProjects/MLDigits/target/classes/Luca/Network1"
-    );
-    public ImageProcessor(){
-        // network = new Network(16, 2);
-        // trainNetwork();
-        fileReaderWriter.ReadMats(0, 36, this);
+    private final BinaryFileReaderWriter fileReaderWriter;
+
+    public ImageProcessor(int nodes, int layers, String networkName){
+        fileReaderWriter = new BinaryFileReaderWriter(
+                FilenameResourceResolver.resolvePath("train-images.idx3-ubyte"),
+                FilenameResourceResolver.resolvePath("train-labels.idx1-ubyte"),
+                "target/classes/Luca/" + networkName
+        );
+        network = new Network(nodes, layers, networkName);
+    }
+    public ImageProcessor(String networkName){
+        fileReaderWriter = new BinaryFileReaderWriter(
+                FilenameResourceResolver.resolvePath("train-images.idx3-ubyte"),
+                FilenameResourceResolver.resolvePath("train-labels.idx1-ubyte"),
+                FilenameResourceResolver.resolvePath(networkName)
+        );
         network = fileReaderWriter.readNetwork();
-        testNetworkOnImage(1);
     }
     public void testNetworkOnImage(int i){
         if (i < trainingImages.size()){
@@ -33,14 +37,15 @@ public class ImageProcessor {
             ConsolePrinter.printImage(trainingImages.get(i));
         }
     }
-    public void trainNetwork(){
-        for (int i = 0; i < TOTAL_BATCHES; i++){
-            fileReaderWriter.ReadMats(i * BATCH_SIZE, BATCH_SIZE, this);
-            network.trainNetworkOnBatch(trainingImages.subList(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE));
+    public void trainNetwork(int batchSize, int totalBatches){
+        for (int i = 0; i < totalBatches; i++){
+            fileReaderWriter.ReadMats(i * batchSize, batchSize, this);
+            network.trainNetworkOnBatch(trainingImages.subList(i * batchSize, i * batchSize + batchSize));
         }
+    }
+    public void saveNetwork(){
         fileReaderWriter.writeNetwork(network);
     }
-
     public List<TrainingImage> getTrainingImages() {
         return trainingImages;
     }

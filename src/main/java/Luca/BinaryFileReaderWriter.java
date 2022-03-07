@@ -19,8 +19,8 @@ public class BinaryFileReaderWriter {
     private final String networkFilename;
 
     BinaryFileReaderWriter(String imageFilename, String labelFilename, String networkFilename){
-        this.imageFilename = FilenameResourceResolver.resolvePath(imageFilename);
-        this.labelFilename = FilenameResourceResolver.resolvePath(labelFilename);
+        this.imageFilename = imageFilename;
+        this.labelFilename = labelFilename;
         this.networkFilename = networkFilename;
     }
     private byte[] readLabels(int s, int n){
@@ -87,7 +87,7 @@ public class BinaryFileReaderWriter {
         try {
             inFile = new DataInputStream(new FileInputStream(networkFilename));
             int layerCount = inFile.readInt();
-            Network newNetwork = new Network(layerCount);
+            Network newNetwork = new Network(layerCount, networkFilename);
             for (int i = 0; i < layerCount; i++){
                 newNetwork.addLayer(readLayer(inFile));
             }

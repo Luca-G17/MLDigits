@@ -7,6 +7,20 @@ import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 
 public abstract class CustomMath {
+    public static boolean isInteger(String strInt){
+        if (strInt == null)
+            return false;
+        try {
+            int i = Integer.parseInt(strInt);
+        }
+        catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    public static int strToInt(String strInt){
+        return Integer.parseInt(strInt);
+    }
     public static Array2DRowFieldMatrix<Dfp> hadamardDivision(Array2DRowFieldMatrix<Dfp> m1, Array2DRowFieldMatrix<Dfp> m2){
         if (m1.getColumnDimension() != m2.getColumnDimension() || m1.getRowDimension() != m2.getRowDimension()){
             throw new RuntimeException(String.format("Dimensions don't match m1: (%d, %d) m2: (%d, %d)",
