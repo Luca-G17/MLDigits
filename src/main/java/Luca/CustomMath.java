@@ -72,6 +72,29 @@ public abstract class CustomMath {
         }
         return new Array2DRowFieldMatrix<>(arr);
     }
+    public static Array2DRowFieldMatrix<Dfp> reLU(Array2DRowFieldMatrix<Dfp> mat){
+        Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
+        for (int i = 0; i < mat.getRowDimension(); i++){
+            for (int j = 0; j < mat.getColumnDimension(); j++){
+                arr[i][j] = dfpField.newDfp(Math.max(mat.getEntry(i, j).toDouble(), 0));
+            }
+        }
+        return new Array2DRowFieldMatrix<>(arr);
+    }
+    public static Array2DRowFieldMatrix<Dfp> reLUDerivative(Array2DRowFieldMatrix<Dfp> mat){
+        Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
+        DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
+        for (int i = 0; i < mat.getRowDimension(); i++){
+            for (int j = 0; j < mat.getColumnDimension(); j++){
+                double x = 0;
+                if (mat.getEntry(i, j).toDouble() > 0) x = 1;
+                else x = 0;
+                arr[i][j] = dfpField.newDfp(x);
+            }
+        }
+        return new Array2DRowFieldMatrix<>(arr);
+    }
     public static Array2DRowFieldMatrix<Dfp> sigmoidDerivative(Array2DRowFieldMatrix<Dfp> mat){
         Dfp[][] arr = new Dfp[mat.getRowDimension()][mat.getColumnDimension()];
         Sigmoid.Parametric sig = new Sigmoid.Parametric();
@@ -83,5 +106,13 @@ public abstract class CustomMath {
             }
         }
         return new Array2DRowFieldMatrix<>(arr);
+    }
+    public static Dfp vectorMax(Array2DRowFieldMatrix<Dfp> vector){
+        Dfp max = vector.getEntry(0, 0);
+        for (Dfp num : vector.getColumn(0)){
+            if (num.greaterThan(max))
+                max = num;
+        }
+        return max;
     }
 }

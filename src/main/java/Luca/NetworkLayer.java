@@ -16,6 +16,7 @@ public class NetworkLayer {
     private Array2DRowFieldMatrix<Dfp> dCostWRTActivation;
     private Array2DRowFieldMatrix<Dfp> dCostWRTWeight;
     private Array2DRowFieldMatrix<Dfp> dCostWRTBias;
+    private final double LEARNING_RATE = 0.001;
 
     NetworkLayer(int nodeCount, Array2DRowFieldMatrix<Dfp> weightMatrix, Array2DRowFieldMatrix<Dfp> biasMatrix){
         this.nodeCount = nodeCount;
@@ -51,7 +52,7 @@ public class NetworkLayer {
         Dfp[][] arr = new Dfp[nodeCount][x];
         for (int i = 0; i < nodeCount; i++){
             for (int j = 0; j < x; j++){
-                int r = rand.nextInt(10) - 5;
+                double r = rand.nextDouble();
                 arr[i][j] = dfp.newDfp(r);
             }
         }
@@ -67,32 +68,34 @@ public class NetworkLayer {
     }
     public void computeCurrentActivation(Array2DRowFieldMatrix<Dfp> prevLayerActivation){
         nodeMatrix = (weightMatrix.multiply(prevLayerActivation)).add(biasMatrix);
-        normalisedNodeMatrix = CustomMath.sigmoid(nodeMatrix);
+        normalisedNodeMatrix = CustomMath.reLU(nodeMatrix);
     }
     public void backpropagation(Array2DRowFieldMatrix<Dfp> prevLayerActivation, Array2DRowFieldMatrix<Dfp> expectedVector){
-        dCostWRTActivation = normalisedNodeMatrix.subtract(expectedVector);
+        dCostWRTActivation = (Array2DRowFieldMatrix<Dfp>) nodeMatrix.subtract(expectedVector.scalarMultiply(CustomMath.vectorMax(nodeMatrix)));
         dCostWRTWeight = dCostWRTWeight.add(computeDerivativeCostWRTWeight(prevLayerActivation)); // Average gradient's over batch size
         dCostWRTBias = dCostWRTBias.add(computeDerivativeCostWRTBias());
     }
     public void backpropagation(Array2DRowFieldMatrix<Dfp> prevLayerActivation, Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation, Array2DRowFieldMatrix<Dfp> weightsLeavingLayer){
-        computeDerivativeCostWRTActivation(subsequentCostWRTActivation, weightsLeavingLayer);
-        computeDerivativeCostWRTWeight(prevLayerActivation);
-        computeDerivativeCostWRTBias();
+        dCostWRTActivation = computeDerivativeCostWRTActivation(subsequentCostWRTActivation, weightsLeavingLayer);
+        dCostWRTWeight = dCostWRTWeight.add(computeDerivativeCostWRTWeight(prevLayerActivation));
+        dCostWRTBias = dCostWRTBias.add(computeDerivativeCostWRTBias());
     }
     public void stepGradientAndBias(int batchSize){
         DfpField dfpField = new DfpField(Network.DECIMAL_DIGITS);
         double normaliser = 1f / batchSize;
-        weightMatrix = weightMatrix.subtract(CustomMath.hadamardDivision(
-                (Array2DRowFieldMatrix<Dfp>) dCostWRTWeight.scalarMultiply(dfpField.newDfp(normaliser)),
-                weightMatrix));
-        biasMatrix = biasMatrix.subtract(CustomMath.hadamardDivision(
-                (Array2DRowFieldMatrix<Dfp>) dCostWRTBias.scalarMultiply(dfpField.newDfp(normaliser)),
-                biasMatrix));
-
+        Dfp learningDfp = dfpField.newDfp(LEARNING_RATE);
+        weightMatrix = (Array2DRowFieldMatrix<Dfp>) weightMatrix.subtract(CustomMath.hadamardDivision(
+                weightMatrix,
+                (Array2DRowFieldMatrix<Dfp>) dCostWRTWeight.scalarMultiply(dfpField.newDfp(normaliser))
+        ).scalarMultiply(learningDfp));
+        biasMatrix = (Array2DRowFieldMatrix<Dfp>) biasMatrix.subtract(CustomMath.hadamardDivision(
+                biasMatrix,
+                (Array2DRowFieldMatrix<Dfp>) dCostWRTBias.scalarMultiply(dfpField.newDfp(normaliser))
+        ).scalarMultiply(learningDfp));
     }
-    private void computeDerivativeCostWRTActivation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation, Array2DRowFieldMatrix<Dfp> weightsLeavingLayer){
-        dCostWRTActivation = CustomMath.hadamardProduct((Array2DRowFieldMatrix<Dfp>) (weightsLeavingLayer.transpose()).multiply(subsequentCostWRTActivation),
-                CustomMath.sigmoidDerivative(nodeMatrix));
+    private Array2DRowFieldMatrix<Dfp> computeDerivativeCostWRTActivation(Array2DRowFieldMatrix<Dfp> subsequentCostWRTActivation, Array2DRowFieldMatrix<Dfp> weightsLeavingLayer){
+        return CustomMath.hadamardProduct((Array2DRowFieldMatrix<Dfp>) (weightsLeavingLayer.transpose()).multiply(subsequentCostWRTActivation),
+                CustomMath.reLUDerivative(nodeMatrix));
         // (Transpose WeightMatrix * Next derivative of cost WRT node activation) O Sigmoid Gradient of current node activation
     }
     private Array2DRowFieldMatrix<Dfp> computeDerivativeCostWRTWeight(Array2DRowFieldMatrix<Dfp> prevLayerActivation){

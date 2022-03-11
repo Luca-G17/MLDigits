@@ -54,7 +54,7 @@ public class ConsolePrinter {
         Array2DRowFieldMatrix<Dfp> costs = layer.getdCostWRTActivation();
         double total = 0;
         for (Dfp entry : costs.getColumn(0)){
-            total += entry.toDouble();
+            total += entry.toDouble() * entry.toDouble();
         }
         System.out.printf("Image Num: %d\nCost: %f%n", i, total);
     }

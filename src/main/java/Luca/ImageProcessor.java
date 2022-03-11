@@ -35,13 +35,16 @@ public class ImageProcessor {
                 networkName
         );
     }
-    public void testNetworkOnImage(int i){
+    public void runNetworkOnImage(int i){
         if (i < trainingImages.size()){
             int x = network.computeNetwork(trainingImages.get(i));
             System.out.printf("The network sees a %d", x);
             System.out.println();
             ConsolePrinter.printImage(trainingImages.get(i));
         }
+    }
+    public int runNetworkOnImage(DigitImage image){
+        return network.computeNetwork(image);
     }
     public void trainNetwork(int batchSize, int totalBatches){
         for (int i = 0; i < totalBatches; i++){

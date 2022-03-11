@@ -10,7 +10,7 @@ import java.util.List;
 public class Network {
     private final List<NetworkLayer> network = new ArrayList<>();
     private final int layerCount;
-    public static final int DECIMAL_DIGITS = 5;
+    public static final int DECIMAL_DIGITS = 3;
     private String name;
 
     Network(int layerCount, String name) {
@@ -28,7 +28,7 @@ public class Network {
         network.add(new NetworkLayer(10, nodeCount));
     }
 
-    public int computeNetwork(TrainingImage image){
+    public int computeNetwork(DigitImage image){
         Array2DRowFieldMatrix<Dfp> prevActivation = image.getMatrixAsVector();
         for (NetworkLayer layer : network){
             layer.computeCurrentActivation(prevActivation);
@@ -49,16 +49,15 @@ public class Network {
     }
     public void trainNetworkOnBatch(List<TrainingImage> images){
         initNetworkGradMats();
-        for (int i = 0; i < images.size(); i++){
-            computeBackpropagation(images.get(i));
-            computeGradientStep(images.size());
+        for (TrainingImage image : images) {
+            computeBackpropagation(image);
         }
+        computeGradientStep(images.size());
     }
     public void initNetworkGradMats(){
         for (NetworkLayer networkLayer : network) {
             networkLayer.initGradMats();
         }
-
     }
     public void computeGradientStep(int batchSize){
         for (NetworkLayer networkLayer : network) {
@@ -73,7 +72,7 @@ public class Network {
             network.get(i).backpropagation(network.get(i - 1).getNormalisedNodeMatrix(), subMat.getdCostWRTActivation(), subMat.getWeightMatrix());
         }
         network.get(0).backpropagation(image.getMatrixAsVector(), network.get(1).getdCostWRTActivation(), network.get(1).getWeightMatrix());
-        // ConsolePrinter.printCost(network.get(network.size() - 1), image.getIndex());
+        ConsolePrinter.printCost(network.get(network.size() - 1), image.getIndex());
     }
 
     public List<NetworkLayer> getNetwork() {

@@ -4,10 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Line;
@@ -19,13 +20,16 @@ public class PrimaryController {
     @FXML
     BorderPane borderPane;
     private VBox buttonPanel;
-    private VerticalPanelTextField batchCountField;
-    private VerticalPanelTextField batchSizeField;
-    private VerticalPanelTextField nodeCountField;
-    private VerticalPanelTextField layerCountField;
-    private VerticalPanelTextField networkNameField;
+    private VBox centrePanel;
+    private labeledVerticalPanelElement batchCountField;
+    private labeledVerticalPanelElement batchSizeField;
+    private labeledVerticalPanelElement nodeCountField;
+    private labeledVerticalPanelElement layerCountField;
+    private labeledVerticalPanelElement networkNameField;
+    private labeledVerticalPanelElement drawingPanel;
     private final Label generalOutput = new Label();
     private final Label networkLabel = new Label("Network: No Network");
+    private final Label networkOutputLabel = new Label();
     private ImageProcessor processor;
 
     public void initialize(){
@@ -42,26 +46,54 @@ public class PrimaryController {
         welcomeLabel.setPadding(new Insets(0, 0, 10, 0));
         Font font = Font.loadFont("file:src/main/resources/Luca/Roboto-Light.ttf", 30);
         welcomeLabel.setFont(font);
-        Line line = new Line(0, 0, 700, 0);
-        line.setStrokeWidth(4);
+        Line horzLine = new Line(0, 0, 700, 0);
+        horzLine.setStrokeWidth(4);
+        Line vertLine = new Line(0, 0, 0, 550);
+        vertLine.setStrokeWidth(4);
+
         buttonPanel = new VBox();
+        centrePanel = new VBox();
+        HBox leftPane = new HBox();
+        leftPane.setPadding(new Insets(10, 10, 10, 10));
+        leftPane.setSpacing(20);
+        leftPane.getChildren().add(buttonPanel);
+        leftPane.getChildren().add(vertLine);
         buttonPanel.setPadding(new Insets(10, 10, 20, 5));
+        centrePanel.setPadding(new Insets(10, 10, 20, 5));
+        centrePanel.setSpacing(10);
+        centrePanel.setStyle("-fx-border-color: Yellow");
+        centrePanel.setMaxWidth(140);
         buttonPanel.setSpacing(10);
         buttonPanel.setPrefWidth(200);
         VBox titlePanel = new VBox();
         generalOutput.prefHeight(60);
         generalOutput.setWrapText(true);
         networkLabel.setWrapText(true);
+        networkOutputLabel.setWrapText(true);
 
-        batchCountField = new VerticalPanelTextField("Batch Count", "");
-        batchSizeField = new VerticalPanelTextField("Batch Size", "");
-        nodeCountField = new VerticalPanelTextField("Nodes Per Layer", "");
-        layerCountField = new VerticalPanelTextField("Layer Count", "");
-        networkNameField = new VerticalPanelTextField("Network Name", "");
+        drawingPanel = new labeledVerticalPanelElement("Draw Digit", new DrawingPanel());
+        batchCountField = new labeledVerticalPanelElement("Batch Count", new TextField());
+        batchSizeField = new labeledVerticalPanelElement("Batch Size",  new TextField());
+        nodeCountField = new labeledVerticalPanelElement("Nodes Per Layer", new TextField());
+        layerCountField = new labeledVerticalPanelElement("Layer Count", new TextField());
+        networkNameField = new labeledVerticalPanelElement("Network Name", new TextField());
+
+        EventHandler<ActionEvent> clearDrawingEvent = (e -> onClearDrawingClick());
+        EventHandler<ActionEvent> drawingSelectedEvent = (e -> onDrawingSelectedClick());
         EventHandler<ActionEvent> creatingEvent = (e -> onCreatingClick());
         EventHandler<ActionEvent> trainingEvent = (e -> onTrainingClick());
         EventHandler<ActionEvent> savingEvent = (e -> onSavingClick());
         EventHandler<ActionEvent> loadingEvent = (e -> onLoadingClick());
+        CustomButton clearDrawingButton = new CustomButton(
+                "-fx-background-color: linear-gradient(to bottom left, #fc5523, #f54b64)",
+                "CLEAR",
+                clearDrawingEvent
+        );
+        CustomButton drawingSubmissionButton = new CustomButton(
+                "-fx-background-color: linear-gradient(to bottom left, #fc5523, #f54b64)",
+                "SUBMIT",
+                drawingSelectedEvent
+        );
         CustomButton creatingButton = new CustomButton(
                 "-fx-background-color: linear-gradient(to bottom left, #fc5523, #f54b64)",
                 "NEW NETWORK",
@@ -93,14 +125,35 @@ public class PrimaryController {
         buttonPanel.getChildren().add(savingButton.getButton());
         buttonPanel.getChildren().add(loadingButton.getButton());
         buttonPanel.getChildren().add(generalOutput);
+        centrePanel.getChildren().add(drawingPanel.getvBox());
+        centrePanel.getChildren().add(clearDrawingButton.getButton());
+        centrePanel.getChildren().add(drawingSubmissionButton.getButton());
+        centrePanel.getChildren().add(networkOutputLabel);
 
         titlePanel.getChildren().add(welcomeLabel);
-        titlePanel.getChildren().add(line);
+        titlePanel.getChildren().add(horzLine);
         borderPane.setTop(titlePanel);
-        borderPane.setLeft(buttonPanel);
+        borderPane.setLeft(leftPane);
+        BorderPane.setAlignment(centrePanel, Pos.TOP_LEFT);
+        borderPane.setCenter(centrePanel);
+    }
+    public void onClearDrawingClick(){
+        ((DrawingPanel)drawingPanel.getNode()).deactivateGrid();
+        networkOutputLabel.setText("SUCCESS: Cleared");
+    }
+    public void onDrawingSelectedClick(){
+        DigitImage image = ((DrawingPanel)drawingPanel.getNode()).getCurrentImage();
+        if (processor != null){
+            int val = processor.runNetworkOnImage(image);
+            networkOutputLabel.setText(String.format("SUCCESS: The network sees a %d", val));
+            processor.runNetworkOnImage(35);
+        }
+        else{
+            networkOutputLabel.setText(String.format("ERROR: No network"));
+        }
     }
     public void onLoadingClick(){
-        String networkName = networkNameField.getText();
+        String networkName = ((TextField) networkNameField.getNode()).getText();
         if (networkName.length() == 0)
             generalOutput.setText("ERROR: Network Name input invalid");
         else{
@@ -116,9 +169,9 @@ public class PrimaryController {
         }
     }
     public void onCreatingClick(){
-        String nodeCountStr = nodeCountField.getText();
-        String layerCountStr = layerCountField.getText();
-        String networkName = networkNameField.getText();
+        String nodeCountStr = ((TextField) nodeCountField.getNode()).getText();
+        String layerCountStr = ((TextField) layerCountField.getNode()).getText();
+        String networkName = ((TextField) networkNameField.getNode()).getText();
         if (!CustomMath.isInteger(nodeCountStr) || !CustomMath.isInteger(layerCountStr) || networkName.length() == 0)
             generalOutput.setText("ERROR: Node/Layer Count inputs invalid");
         else{
@@ -135,13 +188,13 @@ public class PrimaryController {
         }
     }
     public void onTrainingClick(){
-        String batchCountStr = batchCountField.getText();
-        String batchSizeStr = batchSizeField.getText();
+        String batchCountStr = ((TextField) batchCountField.getNode()).getText();
+        String batchSizeStr = ((TextField) batchSizeField.getNode()).getText();
         if (!CustomMath.isInteger(batchCountStr) || !CustomMath.isInteger(batchSizeStr))
             generalOutput.setText("ERROR: Batch inputs invalid");
         else {
-            int batchCount = CustomMath.strToInt(batchCountField.getText());
-            int batchSize = CustomMath.strToInt(batchSizeField.getText());
+            int batchCount = CustomMath.strToInt(batchCountStr);
+            int batchSize = CustomMath.strToInt(batchSizeStr);
             if (batchCount * batchSize > 60000)
                 generalOutput.setText("ERROR: Batch Count * Batch Size > 60,000");
             else if (batchCount < 1 || batchSize < 1){

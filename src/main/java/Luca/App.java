@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,6 +20,13 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 840, 680);
         stage.setScene(scene);
         stage.show();
+        scene.setOnDragDetected(
+                event -> {
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        event.consume();
+                        scene.startFullDrag();
+                    }
+                });
     }
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
